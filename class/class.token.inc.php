@@ -28,30 +28,78 @@ class token {
 		$this->pdo = db::instance();
 		if($id != 0){
 			$this->id = $id;
-			
+			$this->load();
 		}
 	}
 	
-	//screwed up... fix this immediately
 	private function load(){
 		$query = "SELECT * FROM `token` WHERE `id`='{$this->id}'";
 		$result = $this->pdo->query($query);
 		if($result->rowCount()==1){
 			$result = $result->fetch();
 			$this->type = $result['type'];
+			$this->token = $result['token'];
+			$this->token_secret = $result['token_secret'];
+			$this->callback_url = $result['callback_url'];
+			$this->verifier = $result['verifier'];
+			$this->consumer = new consumer($result['consumer_id']);
+			//add user object after defining the class...
 		}
 	}
 	
 	
 	//functions to do CRUD operations
 	
-	//getter functions
+	public static function createrequesttoken($consumer, $token, $token_secret, $callback){
+		$pdo = db::instance();
+		$query = "INSERT INTO `token` (`type`, `consumer_id`, `token`, `token_secret`, `callback_url`) VALUES ('1', '{$consumer->getid()}', '{$token}', '{$token_secret}', '{$callback}')";
+		$pdo->exec($query);
+	}
 	
-	public function isaccess(){
+	public static function findbytoken($token){
+		$pdo = db::instance();
+		$query = "SELECT `id` FROM `token` WHERE `token`='{$token}'";
+		$result = $pdo->query($query);
+		if($result->rowCount()==1){
+			$result = $result->fetch();
+			return new token($result['id']);
+		}
+		return FALSE;
+	}
+	
+	//setter functions
+	
+	public function changetoaccesstoken($token, $secret){
+		if($this->isrequest()){
+			$query = "UPDATE `token` SET `type`=2 `token`='{$token}', `token_secret`='{$secret}', `callback_url`='', `verifier`='' WHERE `id`='{$this->id}'";
+			$this->pdo->exec($query);
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+		
+	}
+	
+	public function setverifier($verifier){
+		$this->verifier = $verifier;
+		$query = "UPDATE `token` SET `verifier`='{$verifier}' WHERE `id`='{$this->id}'";
+		$this->pdo->exec($query);
+	}
+	
+	public function setuser($user){
+		$this->user = $user;
+		$query = "UPDATE `token` SET `user_id`='{$user->getid()}' WHERE `id`='{$this->id}'";
+		$this->pdo->exec($query);
+	}
+	
+	//getter functions
+	//set type = 1 for request token
+	//type = 2 for access token
+	public function isrequest(){
 		return $this->type == 1;
 	}
 	
-	public function isrequest(){
+	public function isaccess(){
 		return !$this->isaccess();
 	}
 	
