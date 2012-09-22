@@ -2,6 +2,7 @@
 /*
  * This file contains class definition to abstract database interation that uses a pdo instance
  * 
+ * Author	 : vignesh
  * Classname : db
  * Filename  : class.db.inc.php
  * 

@@ -2,6 +2,7 @@
 /**
  * This file contains class definition for user class
  * 
+ * Author	 : vignesh
  * Classname : user
  * Filename  : class.user.inc.php
  * 

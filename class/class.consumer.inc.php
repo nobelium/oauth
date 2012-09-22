@@ -2,6 +2,7 @@
 /**
  * This file contains class defintion for consumer
  * 
+ * Author	 : vignesh
  * Classname : consumer
  * Filename  : class.consumer.inc.php
  * 
