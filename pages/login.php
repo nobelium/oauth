@@ -20,7 +20,7 @@ if(isset($_GET['token'])){
 			</div>
 			<?php
 		} else {
-			//process form
+			//process form and redirect to callback url
 		}
 	} else {
 		echo "No such request token found in db";

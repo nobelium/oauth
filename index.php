@@ -12,7 +12,7 @@ function __autoload($classname){
 	}
 }
 
-$provider = new provider();
+
 ?>
 
 
