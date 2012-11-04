@@ -1,0 +1,6 @@
+<?php
+/*
+ * Handles api requests
+ * */
+ 
+?>

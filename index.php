@@ -14,22 +14,20 @@ function __autoload($classname){
 
 $provider = new provider();
 ?>
-<html>
-	<head><title>Oauth provider</title></head>
-	<body>
-		<div id="contents">
+
+
 <?php
 	if($_GET['page']=="oauth"){
 		require_once './pages/oauthhandler.php';
-	} else if($_GET['page']=="login"){
+	} else if($_GET['page']=="api"){
 		require_once './pages/apihandler.php';
+	} else if($_GET['page']=="login"){
+		require_once './pages/login.php';
 	}
-?>			
-		</div>		
-		<div id="test">
+?>		
+
+
+	
 <?php
-	print_r($_GET);
+	//print_r($_GET);
 ?>	
-		</div>
-	</body>
-</html>
