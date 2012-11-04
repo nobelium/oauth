@@ -14,6 +14,13 @@ class ClassName{
 	
 	//data members
 	protected $oauth;	//php pecl oauth extension object
+	/*other objects of $oauth
+	 * $oauth->token
+	 * $oauth->callback
+	 * $oauth->tokenhandler
+	 * $oauth->timestampnoncehandler
+	 * $oauth->consumerhandler
+	*/
 	protected $consumer;
 	protected $user;
 	protected $auth_url = OAUTH_URL;
@@ -86,15 +93,29 @@ class ClassName{
 	}
 	
 	//handlerfunctions
-	public function checkconsumer(){
+	public function checkconsumer($provider){
+		$return = OAUTH_CONSUMER_KEY_UNKNOWN;
+		$consumer = consumer::findbykey($provider->consumer_key);
 		
+		if(is_object($consumer)){
+			if(!$consumer->isactive()){
+				//refuse consumer key
+				$return = OAUTH_CONSUMER_KEY_REFUSED;
+			} else {
+				//set $this->consumer
+				$this->consumer = $consumer;
+				$this->oauth->consumer_secret = $this->consumer->getsecret();
+				$return = OAUTH_OK;
+			}
+		}
+		return $return;
 	}
 	
 	public function checktoken(){
 		
 	}
 	
-	public function chechnonce(){
+	public function checknonce(){
 		return OAUTH_OK;
 	}
 	
