@@ -1,10 +1,17 @@
 <?php
+
+function __autoload($classname){
+	if(file_exists("../class/class.".$classname.".inc.php")){
+		require_once "../class/class.".$classname.".inc.php";
+	}
+}
+
 $provider = new provider();
 
 if($_GET['query']=="request_token"){
 	$provider->setrequesttokenquery();
-	//$provider->checkrequest();
-	//echo $provider->generaterequesttoken();
+	$provider->checkrequest();
+	echo $provider->generaterequesttoken();
 } else if($_GET['query']=="access_token"){
 	$provider->checkrequest();
 	echo $provider->generateaccesstoken();

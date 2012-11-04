@@ -29,8 +29,8 @@ class provider{
 	protected $oauth_error;
 	
 	public static function createconsumer(){
-		$key = md5(OAuthProvider::generateToken(20, TRUE));
-		$secret = md5(OAuthProvider::generateToken(20, TRUE));
+		$key = md5(OAuthProvider::generateToken(20, FALSE));
+		$secret = md5(OAuthProvider::generateToken(20, FALSE));
 		return consumer::create($key, $secret);
 	}
 
@@ -38,7 +38,7 @@ class provider{
 		$this->oauth = new OAuthProvider();
 		
 		$this->oauth->consumerHandler(array($this, 'checkconsumer'));
-		$this->oauth->tokenHandler(array($this, 'checktoken'));
+		//$this->oauth->tokenHandler(array($this, 'checktoken'));
 		$this->oauth->timestampNonceHandler(array($this, 'checknonce'));
 	}
 	
@@ -63,8 +63,8 @@ class provider{
 		if($this->oauth_error){
 			return FALSE;
 		}
-		$require_token = md5(OAuthProvider::generateToken(20, TRUE));
-		$require_token_secret = md5(OAuthProvider::generateToken(20, TRUE));
+		$require_token = md5(OAuthProvider::generateToken(20, FALSE));
+		$require_token_secret = md5(OAuthProvider::generateToken(20, FALSE));
 		
 		$callback = $this->oauth->callback;
 		$consumer = $this->consumer;
@@ -78,8 +78,8 @@ class provider{
 		if($this->oauth_error){
 			return FALSE;
 		}
-		$access_token = md5(OAuthProvider::generateToken(20, TRUE));
-		$access_token_secret = md5(OAuthProvider::generateToken(20, TRUE));
+		$access_token = md5(OAuthProvider::generateToken(20, FALSE));
+		$access_token_secret = md5(OAuthProvider::generateToken(20, FALSE));
 		
 		$token = token::findbytoken($this->oauth->token);
 		
@@ -92,31 +92,36 @@ class provider{
 	}
 	
 	public function generateverifier(){
-		return md5(OAuthProvider::generateToken(20, TRUE));
+		return md5(OAuthProvider::generateToken(20, FALSE));
 	}
 	
 	//handlerfunctions
 	public function checkconsumer($provider){
-		return OAUTH_OK;
-		$return = OAUTH_CONSUMER_KEY_UNKNOWN;
+		/*echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+		print_r($provider);
+		echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";*/
 		$consumer = consumer::findbykey($provider->consumer_key);
 		
 		if(is_object($consumer)){
 			if(!$consumer->isactive()){
 				//refuse consumer key
-				$return = OAUTH_CONSUMER_KEY_REFUSED;
+				return  OAUTH_CONSUMER_KEY_REFUSED;
 			} else {
 				//set $this->consumer
 				$this->consumer = $consumer;
-				$this->oauth->consumer_secret = $this->consumer->getsecret();
-				$return = OAUTH_OK;
+				$provider->consumer_secret = $this->consumer->getsecret();
+				/*echo "key=>";
+				print_r($provider->consumer_key);
+				echo "secret=>";
+				print_r($provider->consumer_secret);*/
+				return OAUTH_OK;
 			}
 		}
-		return $return;
+		return OAUTH_CONSUMER_KEY_UNKNOWN;
 	}
 	
 	public function checktoken($provider){
-		return OAUTH_OK;
+		//return OAUTH_OK;
 		$token = token::findbytoken($provider->token);
 		if(is_null($token)){
 			return OAUTH_TOKEN_REJECTED;
@@ -131,7 +136,7 @@ class provider{
 		}
 	}
 	
-	public function checknonce(){
+	public function checknonce($provider){
 		//add a complex nonce checker
 		return OAUTH_OK;
 	}
