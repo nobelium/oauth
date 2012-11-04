@@ -63,8 +63,8 @@ class provider{
 		if($this->oauth_error){
 			return FALSE;
 		}
-		$require_token = md5(OAuthProvider::generateToken(20, FALSE));
-		$require_token_secret = md5(OAuthProvider::generateToken(20, FALSE));
+		$request_token = md5(OAuthProvider::generateToken(20, FALSE));
+		$request_token_secret = md5(OAuthProvider::generateToken(20, FALSE));
 		
 		$callback = $this->oauth->callback;
 		$consumer = $this->consumer;
