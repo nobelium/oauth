@@ -14,9 +14,9 @@ class db {
 	
 	private static $instance;
 	
-	function __construct($argument) {
+	function __construct() {
 		try{
-			$this->pdo = new PDO(DB_HOST.":host=".DB_HOST.";dbname=".DB_NAME,DB_USER,DB_PASSWD);
+			$this->pdo = new PDO(DB_TYPE.":host=".DB_HOST.";dbname=".DB_NAME,DB_USER,DB_PASSWD);
 			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->pdo->exec("set names 'utf8'");
 		}catch(PDOException $e){

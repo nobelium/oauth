@@ -10,7 +10,7 @@
  
 @require_once (dirname(__FILE__).'/config.inc.php');
 
-class ClassName{
+class provider{
 	
 	//data members
 	protected $oauth;	//php pecl oauth extension object

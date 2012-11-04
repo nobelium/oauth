@@ -7,8 +7,8 @@
  * */
  
 function __autoload($classname){
-	if(file_exists("./class/class.".$classname.".inc.php")){
-		require_once "./class/class.".$classname.".inc.php";
+	if(file_exists(__DIR__."/class/class.".$classname.".inc.php")){
+		require_once __DIR__."/class/class.".$classname.".inc.php";
 	}
 }
 
