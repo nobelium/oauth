@@ -15,11 +15,13 @@ class provider{
 	//data members
 	protected $oauth;	//php pecl oauth extension object
 	/*other objects of $oauth
-	 * $oauth->token
-	 * $oauth->callback
-	 * $oauth->tokenhandler
-	 * $oauth->timestampnoncehandler
-	 * $oauth->consumerhandler
+	 * $oauth->token						//
+	 * $oauth->callback						//
+	 * $oauth->tokenhandler					//sets the method to be called to check the token 
+	 * $oauth->timestampnoncehandler		//sets the method to check nonce
+	 * $oauth->consumerhandler				//sets the method to check consumer
+	 * $oauth->isRequestTokenEndpoint		//indicates if the request is for a request token
+	 * $oauth->addRequiredParameters		//adds the parameters given
 	*/
 	protected $consumer;
 	protected $user;
@@ -52,8 +54,9 @@ class provider{
 	}
 	
 	public function setrequesttokenquery(){
-		OAuthProvider::isRequestTokenEndpoint(TRUE);
-		//set call back url
+		$this->oauth->isRequestTokenEndpoint(TRUE);
+		//set call back url - name of the parameter in get request
+		$this->oauth->addRequiredParameter("oauth_callback");
 	}
 	
 	public function generaterequesttoken(){
@@ -94,6 +97,7 @@ class provider{
 	
 	//handlerfunctions
 	public function checkconsumer($provider){
+		return OAUTH_OK;
 		$return = OAUTH_CONSUMER_KEY_UNKNOWN;
 		$consumer = consumer::findbykey($provider->consumer_key);
 		
@@ -112,6 +116,7 @@ class provider{
 	}
 	
 	public function checktoken($provider){
+		return OAUTH_OK;
 		$token = token::findbytoken($provider->token);
 		if(is_null($token)){
 			return OAUTH_TOKEN_REJECTED;
