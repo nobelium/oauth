@@ -13,7 +13,7 @@
 class ClassName{
 	
 	//data members
-	protected $oauth;
+	protected $oauth;	//php pecl oauth extension object
 	protected $consumer;
 	protected $user;
 	protected $auth_url = OAUTH_URL;
@@ -46,6 +46,7 @@ class ClassName{
 	
 	public function setrequesttokenquery(){
 		OAuthProvider::isRequestTokenEndpoint(TRUE);
+		//set call back url
 	}
 	
 	public function generaterequesttoken(){
@@ -58,9 +59,9 @@ class ClassName{
 		$callback = $this->oauth->callback;
 		$consumer = $this->consumer;
 		
-		token::createrequesttoken($consumer, $require_token, $require_token_secret, $callback);
+		token::createrequesttoken($consumer, $request_token, $request_token_secret, $callback);
 		
-		return "auth_url=".$this->auth_url."&request_token=".$require_token."&request_token_secret=".$require_token_secret;
+		return "auth_url=".$this->auth_url."&request_token=".$request_token."&request_token_secret=".$request_token_secret;
 	}
 	
 	public function generateaccesstoken(){

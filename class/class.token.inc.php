@@ -55,6 +55,7 @@ class token {
 		$pdo = db::instance();
 		$query = "INSERT INTO `token` (`type`, `consumer_id`, `token`, `token_secret`, `callback_url`) VALUES ('1', '{$consumer->getid()}', '{$token}', '{$token_secret}', '{$callback}')";
 		$pdo->exec($query);
+		//return new token($pdo->lastinsertid());
 	}
 	
 	public static function findbytoken($token){
@@ -101,7 +102,7 @@ class token {
 	}
 	
 	public function isaccess(){
-		return !$this->isaccess();
+		return !$this->isrequest();
 	}
 	
 	public function getid(){
