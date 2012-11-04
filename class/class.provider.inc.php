@@ -42,7 +42,7 @@ class provider{
 		$this->oauth = new OAuthProvider();
 		
 		$this->oauth->consumerHandler(array($this, 'checkconsumer'));
-		//$this->oauth->tokenHandler(array($this, 'checktoken'));
+		$this->oauth->tokenHandler(array($this, 'checktoken'));
 		$this->oauth->timestampNonceHandler(array($this, 'checknonce'));
 	}
 	
@@ -97,9 +97,6 @@ class provider{
 	
 	//handlerfunctions
 	public function checkconsumer($provider){
-		/*echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-		print_r($provider);
-		echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";*/
 		$consumer = consumer::findbykey($provider->consumer_key);
 		
 		if(is_object($consumer)){

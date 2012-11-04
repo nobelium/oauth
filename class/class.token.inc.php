@@ -78,7 +78,7 @@ class token {
 	
 	public function changetoaccesstoken($token, $secret){
 		if($this->isrequest()){
-			$query = "UPDATE `token` SET `type`=2 `token`='{$token}', `token_secret`='{$secret}', `callback_url`='', `verifier`='' WHERE `id`='{$this->id}'";
+			$query = "UPDATE `token` SET `type`=2 , `token`='{$token}', `token_secret`='{$secret}', `callback_url`='', `verifier`='' WHERE `id`='{$this->id}'";
 			$this->pdo->exec($query);
 			return TRUE;
 		} else {
