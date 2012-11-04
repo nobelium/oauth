@@ -80,6 +80,11 @@ class token {
 		if($this->isrequest()){
 			$query = "UPDATE `token` SET `type`=2 , `token`='{$token}', `token_secret`='{$secret}', `callback_url`='', `verifier`='' WHERE `id`='{$this->id}'";
 			$this->pdo->exec($query);
+			$this->token = $token;
+			$this->token_secret = $secret;
+			$this->type = 2;
+			$this->verifier = "";
+			$this->callback_url = "";
 			return TRUE;
 		} else {
 			return FALSE;

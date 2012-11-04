@@ -87,7 +87,7 @@ class provider{
 		
 		$token = token::findbytoken($this->oauth->token);
 		
-		if($token){
+		if(is_object($token)){
 			$token->changetoaccesstoken($access_token, $access_token_secret);
 			return "access_token=".$token->gettoken()."&access_token_secret=".$token->gettokensecret();
 		}
@@ -118,7 +118,6 @@ class provider{
 	}
 	
 	public function checktoken($provider){
-		//return OAUTH_OK;
 		$token = token::findbytoken($provider->token);
 		if(is_null($token)){
 			return OAUTH_TOKEN_REJECTED;
