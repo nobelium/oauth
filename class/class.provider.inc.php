@@ -111,11 +111,23 @@ class ClassName{
 		return $return;
 	}
 	
-	public function checktoken(){
-		
+	public function checktoken($provider){
+		$token = token::findbytoken($provider->token);
+		if(is_null($token)){
+			return OAUTH_TOKEN_REJECTED;
+		} else if($token->gettype() == 1 && $token->getverifier() != $provider->verifier){
+			return OAUTH_VERIFIER_INVALID;
+		} else {
+			if($token->gettype() == 2){
+				$this->user = $token->getuser();
+			}
+			$provider->token_secret = $token->gettokensecret();
+			return OAUTH_OK;
+		}
 	}
 	
 	public function checknonce(){
+		//add a complex nonce checker
 		return OAUTH_OK;
 	}
 	
