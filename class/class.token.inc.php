@@ -45,6 +45,11 @@ class token {
 			$this->verifier = $result['verifier'];
 			$this->consumer = new consumer($result['consumer_id']);
 			//add user object after defining the class...
+			if($result['user_id']){
+				$this->user = new user($result['user_id']);
+			} else {
+				$this->user = 0;
+			}
 		}
 	}
 	

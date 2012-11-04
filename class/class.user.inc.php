@@ -36,9 +36,10 @@ class user {
 		}
 	}
 	
-	public static function findbyusername($username){
+	public static function findbyusername($username,$password){
 		$pdo = db::instance();
-		$query = "SELECT `id` FROM `user` WHERE `user_name`='{$username}'";
+		$password = md5($password);
+		$query = "SELECT `id` FROM `user` WHERE `user_name`='{$username}' AND `password`='{$password}'";
 		$result = $pdo->query($query);
 		if($result->rowCount()==1){
 			$result = $result->fetch();

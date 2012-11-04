@@ -33,6 +33,10 @@ class provider{
 		$secret = md5(OAuthProvider::generateToken(20, FALSE));
 		return consumer::create($key, $secret);
 	}
+	
+	public static function generateverifier(){
+		return md5(OAuthProvider::generateToken(20, FALSE));
+	}
 
 	function __construct() {
 		$this->oauth = new OAuthProvider();
@@ -89,10 +93,6 @@ class provider{
 		}
 		$this->oauth_error = TRUE;
 		return FALSE;
-	}
-	
-	public function generateverifier(){
-		return md5(OAuthProvider::generateToken(20, FALSE));
 	}
 	
 	//handlerfunctions

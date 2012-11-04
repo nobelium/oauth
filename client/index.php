@@ -16,7 +16,7 @@ try{
 	echo "Request token has been obtained";
 	echo "Request token:".$info['oauth_token'];
 	echo "Request token secret:".$info['oauth_token_secret'];
-	echo "visit <a href='".$info['auth_url']."&oauth_token=".$info['oauth_token']."'>this page</a> to authenticate";
+	echo "visit <a href='".$info['auth_url']."&request_token=".$info['request_token']."'>this page</a> to authenticate";
 } catch(OAuthException $e){
 	print_r($e);
 }

@@ -7,7 +7,9 @@
  * Filename  : class.db.inc.php
  * 
  * */
- 
+
+@require_once 'config.inc.php';
+
 class db {
 	
 	private $pdo;

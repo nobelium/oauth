@@ -3,8 +3,9 @@
  * Handles user login
  * */
  
-if(isset($_GET['token'])){
+if(isset($_GET['request_token'])){
 	$request_token = token::findbytoken($_GET['request_token']);
+	echo $request_token->gettoken();
 	if(is_object($request_token) && $request_token->isrequest()){
 		if(!isset($_POST['login'])){
 			//echo form
@@ -21,6 +22,14 @@ if(isset($_GET['token'])){
 			<?php
 		} else {
 			//process form and redirect to callback url
+			$user = user::findbyusername($_POST['user_name'], $_POST['password']);
+			if(is_object($user)){
+				$request_token->setverifier(provider::generateverifier());
+				$request_token->setuser($user);
+				header("Location: ".$request_token->getcallbackurl()."?request_token=".$request_token->gettoken()."&verifier=".$request_token->getverifier());
+			} else {
+				echo "Invalid user name or password";
+			}
 		}
 	} else {
 		echo "No such request token found in db";
